@@ -1,0 +1,22 @@
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from route import router
+
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+origins = os.getenv("CORS_ORIGINS", "").split(",")
+
+app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Inclua as rotas
+app.include_router(router)
